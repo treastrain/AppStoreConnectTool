@@ -1,0 +1,60 @@
+{
+  "originHash" : "1373f632e1d4ada0658aeb70bf625da27750fb27900aa77ce6c63fbc4c46acf1",
+  "pins" : [
+    {
+      "identity" : "appstoreconnect-swift-sdk",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/treastrain/appstoreconnect-swift-sdk",
+      "state" : {
+        "branch" : "main",
+        "revision" : "9e843ecee2270fb9e150708c02f5e63fab097219"
+      }
+    },
+    {
+      "identity" : "swift-argument-parser",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-argument-parser.git",
+      "state" : {
+        "revision" : "c5d11a805e765f52ba34ec7284bd4fcd6ba68615",
+        "version" : "1.7.0"
+      }
+    },
+    {
+      "identity" : "swift-asn1",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-asn1.git",
+      "state" : {
+        "revision" : "810496cf121e525d660cd0ea89a758740476b85f",
+        "version" : "1.5.1"
+      }
+    },
+    {
+      "identity" : "swift-crypto",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-crypto.git",
+      "state" : {
+        "revision" : "95ba0316a9b733e92bb6b071255ff46263bbe7dc",
+        "version" : "3.15.1"
+      }
+    },
+    {
+      "identity" : "swift-log",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-log",
+      "state" : {
+        "revision" : "bc386b95f2a16ccd0150a8235e7c69eab2b866ca",
+        "version" : "1.8.0"
+      }
+    },
+    {
+      "identity" : "urlqueryencoder",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/CreateAPI/URLQueryEncoder.git",
+      "state" : {
+        "revision" : "4ce950479707ea109f229d7230ec074a133b15d7",
+        "version" : "0.2.1"
+      }
+    }
+  ],
+  "version" : 3
+}

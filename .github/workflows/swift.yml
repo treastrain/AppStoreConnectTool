@@ -1,0 +1,40 @@
+name: Swift
+
+on:
+  workflow_dispatch:
+
+jobs:
+  swift:
+    name: Build for Release
+    runs-on: macos-26
+    strategy:
+      fail-fast: false
+      matrix:
+        swift-sdk: ["x86_64-apple-macosx", "arm64-apple-macosx", "x86_64-swift-linux-musl", "aarch64-swift-linux-musl"]
+
+    steps:
+    - uses: actions/checkout@v6
+    - name: Setup Swift
+      run: |
+        curl -L https://download.swift.org/swiftly/darwin/swiftly.pkg > swiftly.pkg
+        installer -pkg swiftly.pkg -target CurrentUserHomeDirectory
+        ~/.swiftly/bin/swiftly init --verbose --assume-yes --skip-install
+        . "${SWIFTLY_HOME_DIR:-$HOME/.swiftly}/env.sh"
+        swiftly install --use
+        echo "$(dirname $(which swift))" >> $GITHUB_PATH
+    - name: Get Swift version
+      run: swift --version
+    - name: Install Static Linux SDK
+      if: contains(matrix.swift-sdk, 'linux-musl')
+      run: |
+        SWIFT_VERSION=$(cat .swift-version)
+        CHECKSUM=$(cat .swift-static-sdk-linux-checksum)
+        swift sdk install https://download.swift.org/swift-${SWIFT_VERSION}-release/static-sdk/swift-${SWIFT_VERSION}-RELEASE/swift-${SWIFT_VERSION}-RELEASE_static-linux-0.0.1.artifactbundle.tar.gz --checksum ${CHECKSUM}
+    - name: Build asctool for ${{ matrix.swift-sdk }}
+      run: |
+        swift build -c release --swift-sdk ${{ matrix.swift-sdk }}
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v6
+      with:
+        name: asctool-${{ matrix.swift-sdk }}
+        path: .build/${{ matrix.swift-sdk }}/release/asctool
