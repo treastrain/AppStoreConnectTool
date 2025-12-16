@@ -18,6 +18,7 @@ struct ASCTool: AsyncParsableCommand {
             asctool <subcommand> --individual-private-key-id <individual-private-key-id> --individual-private-key <individual-private-key> [--expiration-duration <expiration-duration>]
             """,
         subcommands: [
+            Validate.self,
         ]
     )
 }
