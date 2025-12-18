@@ -25,7 +25,7 @@ extension AppStoreConnectTool.ListDevices {
         limit: UInt? = nil,
         sort: [QueryParameters.Sort]? = nil,
         payload: AppStoreConnectTool.Payload
-    ) async throws -> some Codable {
+    ) async throws -> some DevicesResponse {
         let configuration = try APIConfiguration(from: payload)
         let endpoint = APIEndpoint.v1.devices.get(
             parameters: APIEndpoint.V1.Devices.GetParameters(

@@ -14,12 +14,17 @@ extension ASCTool {
         static let configuration = CommandConfiguration(
             usage: """
                 asctool modify-registered-device --id <id> [--name <name>] [--status <status>] [--pretty-printed] --issuer-id <issuer-id> --private-key-id <private-key-id> --private-key <private-key> [--expiration-duration <expiration-duration>]
+                asctool modify-registered-device --udid <udid> [--name <name>] [--status <status>] [--pretty-printed] --issuer-id <issuer-id> --private-key-id <private-key-id> --private-key <private-key> [--expiration-duration <expiration-duration>]
                 asctool modify-registered-device --id <id> [--name <name>] [--status <status>] [--pretty-printed] --individual-private-key-id <individual-private-key-id> --individual-private-key <individual-private-key> [--expiration-duration <expiration-duration>]
+                asctool modify-registered-device --udid <udid> [--name <name>] [--status <status>] [--pretty-printed] --individual-private-key-id <individual-private-key-id> --individual-private-key <individual-private-key> [--expiration-duration <expiration-duration>]
                 """
         )
 
-        @Option
-        var id: String
+        @Option(help: "The opaque resource ID that uniquely identifies the resource. (Either ID or UDID is required.)")
+        var id: String?
+
+        @Option(help: "Device Identifier (UDID). (Either ID or UDID is required.)")
+        var udid: String?
 
         @OptionGroup
         var bodyProperties: BodyProperties
@@ -39,6 +44,22 @@ extension ASCTool {
         mutating func run() async throws {
             guard let payload else {
                 throw CleanExit.helpRequest(self)
+            }
+            if id == nil, let udid {
+                let listDevices = AppStoreConnectTool.ListDevices()
+                let response = try await listDevices.run(
+                    filterUDID: [udid],
+                    payload: payload
+                )
+                guard let id = response.data.first?.id else {
+                    print("Error:", "There is no resource of type 'devices' with UDID '\(udid)'.")
+                    throw ExitCode.failure
+                }
+                self.id = id
+            }
+            guard let id else {
+                print("Error:", "You must specify either --id or --udid.")
+                throw ExitCode.validationFailure
             }
             let modifyRegisteredDevice = AppStoreConnectTool.ModifyRegisteredDevice()
             let response = try await modifyRegisteredDevice.run(
