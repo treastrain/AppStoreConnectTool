@@ -59,7 +59,7 @@ extension AppStoreConnectTool.ListDevices.QueryParameters {
     }
 
     public enum FilterStatus: String, CaseIterable {
-        case enabled, disabled
+        case enabled, disabled, processing
     }
 
     public enum Sort: String, CaseIterable {
@@ -110,6 +110,7 @@ extension [AppStoreConnectTool.ListDevices.QueryParameters.FilterStatus] {
             switch $0 {
             case .enabled: .enabled
             case .disabled: .disabled
+            case .processing: .processing
             }
         }
     }
