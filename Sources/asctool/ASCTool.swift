@@ -19,6 +19,7 @@ struct ASCTool: AsyncParsableCommand {
             """,
         subcommands: [
             CreateProfile.self,
+            DeleteProfile.self,
             ListDevices.self,
             ModifyRegisteredDevice.self,
             RegisterNewDevice.self,
