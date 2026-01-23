@@ -21,6 +21,7 @@ struct ASCTool: AsyncParsableCommand {
             CreateProfile.self,
             DeleteProfile.self,
             ListDevices.self,
+            ListProfiles.self,
             ModifyRegisteredDevice.self,
             RegisterNewDevice.self,
             Validate.self,
