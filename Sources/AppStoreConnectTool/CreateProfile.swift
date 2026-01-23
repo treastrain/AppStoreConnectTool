@@ -15,6 +15,7 @@ extension AppStoreConnectTool {
 }
 
 extension AppStoreConnectTool.CreateProfile {
+    @_disfavoredOverload
     public func run(
         name: String,
         profileType: BodyProperties.ProfileType,
@@ -23,6 +24,24 @@ extension AppStoreConnectTool.CreateProfile {
         certificateIDs: [String],
         payload: AppStoreConnectTool.Payload
     ) async throws -> some ProfileResponse {
+        try await run(
+            name: name,
+            profileType: profileType,
+            bundleID: bundleID,
+            deviceIDs: deviceIDs,
+            certificateIDs: certificateIDs,
+            payload: payload
+        )
+    }
+
+    func run(
+        name: String,
+        profileType: BodyProperties.ProfileType,
+        bundleID: String,
+        deviceIDs: [String]? = nil,
+        certificateIDs: [String],
+        payload: AppStoreConnectTool.Payload
+    ) async throws -> AppStoreConnect_Swift_SDK.ProfileResponse {
         let configuration = try APIConfiguration(from: payload)
         let endpoint = APIEndpoint.v1.profiles.post(
             ProfileCreateRequest(

@@ -15,6 +15,7 @@ extension AppStoreConnectTool {
 }
 
 extension AppStoreConnectTool.ListProfiles {
+    @_disfavoredOverload
     public func run(
         fieldsCertificates: [QueryParameters.FieldsCertificates]? = nil,
         fieldsDevices: [QueryParameters.FieldsDevices]? = nil,
@@ -31,6 +32,40 @@ extension AppStoreConnectTool.ListProfiles {
         filterProfileType: [QueryParameters.FilterProfileType]? = nil,
         payload: AppStoreConnectTool.Payload
     ) async throws -> some Codable {
+        try await run(
+            fieldsCertificates: fieldsCertificates,
+            fieldsDevices: fieldsDevices,
+            fieldsProfiles: fieldsProfiles,
+            filterID: filterID,
+            filterName: filterName,
+            include: include,
+            limit: limit,
+            limitCertificates: limitCertificates,
+            limitDevices: limitDevices,
+            sort: sort,
+            fieldsBundleIDs: fieldsBundleIDs,
+            filterProfileState: filterProfileState,
+            filterProfileType: filterProfileType,
+            payload: payload
+        )
+    }
+
+    func run(
+        fieldsCertificates: [QueryParameters.FieldsCertificates]? = nil,
+        fieldsDevices: [QueryParameters.FieldsDevices]? = nil,
+        fieldsProfiles: [QueryParameters.FieldsProfiles]? = nil,
+        filterID: [String]? = nil,
+        filterName: [String]? = nil,
+        include: [QueryParameters.Include]? = nil,
+        limit: UInt? = nil,
+        limitCertificates: UInt? = nil,
+        limitDevices: UInt? = nil,
+        sort: [QueryParameters.Sort]? = nil,
+        fieldsBundleIDs: [QueryParameters.FieldsBundleIDs]? = nil,
+        filterProfileState: [QueryParameters.FilterProfileState]? = nil,
+        filterProfileType: [QueryParameters.FilterProfileType]? = nil,
+        payload: AppStoreConnectTool.Payload
+    ) async throws -> AppStoreConnect_Swift_SDK.ProfilesResponse {
         let configuration = try APIConfiguration(from: payload)
         let endpoint = APIEndpoint.v1.profiles.get(
             parameters: APIEndpoint.V1.Profiles.GetParameters(

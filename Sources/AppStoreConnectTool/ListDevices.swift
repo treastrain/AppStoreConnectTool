@@ -15,6 +15,7 @@ extension AppStoreConnectTool {
 }
 
 extension AppStoreConnectTool.ListDevices {
+    @_disfavoredOverload
     public func run(
         fieldsDevices: [QueryParameters.FieldsDevices]? = nil,
         filterID: [String]? = nil,
@@ -26,6 +27,30 @@ extension AppStoreConnectTool.ListDevices {
         sort: [QueryParameters.Sort]? = nil,
         payload: AppStoreConnectTool.Payload
     ) async throws -> some DevicesResponse {
+        try await run(
+            fieldsDevices: fieldsDevices,
+            filterID: filterID,
+            filterName: filterName,
+            filterPlatform: filterPlatform,
+            filterStatus: filterStatus,
+            filterUDID: filterUDID,
+            limit: limit,
+            sort: sort,
+            payload: payload
+        )
+    }
+
+    func run(
+        fieldsDevices: [QueryParameters.FieldsDevices]? = nil,
+        filterID: [String]? = nil,
+        filterName: [String]? = nil,
+        filterPlatform: [QueryParameters.FilterPlatform]? = nil,
+        filterStatus: [QueryParameters.FilterStatus]? = nil,
+        filterUDID: [String]? = nil,
+        limit: UInt? = nil,
+        sort: [QueryParameters.Sort]? = nil,
+        payload: AppStoreConnectTool.Payload
+    ) async throws -> AppStoreConnect_Swift_SDK.DevicesResponse {
         let configuration = try APIConfiguration(from: payload)
         let endpoint = APIEndpoint.v1.devices.get(
             parameters: APIEndpoint.V1.Devices.GetParameters(
