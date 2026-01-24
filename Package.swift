@@ -4,7 +4,7 @@ import PackageDescription
 
 let package = Package(
     name: "AppStoreConnectTool",
-    platforms: [.macOS(.v26)],
+    platforms: [.macOS(.v11)],
     products: [
         .executable(name: "asctool", targets: ["asctool"]),
         .library(name: "AppStoreConnectTool", targets: ["AppStoreConnectTool"]),

@@ -9,7 +9,12 @@ import Foundation
 
 extension FileManager {
     func validateDirectoryWritable(at path: URL) throws {
-        let path = path.path()
+        let path =
+            if #available(macOS 13.0, iOS 16.0, tvOS 16.0, watchOS 9.0, *) {
+                path.path()
+            } else {
+                path.path
+            }
         var isDirectory: ObjCBool = false
         guard FileManager.default.fileExists(atPath: path, isDirectory: &isDirectory) else {
             throw POSIXError(.ENOENT, userInfo: [NSFilePathErrorKey: path])

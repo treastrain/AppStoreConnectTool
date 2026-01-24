@@ -13,7 +13,12 @@ extension String {
         let fileName = fileName.replacingOccurrences(of: " ", with: "_")
             .replacingOccurrences(of: "/", with: "")
             .replacingOccurrences(of: ":", with: "")
-        let fileURL = directoryURL.appending(path: fileName, directoryHint: .notDirectory)
+        let fileURL =
+            if #available(macOS 13.0, iOS 16.0, tvOS 16.0, watchOS 9.0, *) {
+                directoryURL.appending(path: fileName, directoryHint: .notDirectory)
+            } else {
+                directoryURL.appendingPathComponent(fileName, isDirectory: false)
+            }
         try data.write(to: fileURL, options: .atomic)
     }
 }
